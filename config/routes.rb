@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   resources :posts , :only => [:show, :index, :new, :create, :edit, :update, :destroy]
   resources :welcome, :only => [:index]
   root "welcome#index"
+  resources :users, :only => [:show, :edit, :update, :index]
   
 end
