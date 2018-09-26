@@ -4,6 +4,7 @@ class PostsController < ApplicationController
   
   def show
     @post = Post.find(params[:id])
+    @user = User.find(@post.user_id)
   end
 
   def index
@@ -15,7 +16,8 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.create(params.require(:post).permit(:name, :content, :place))
+    @post = Post.create(params.require(:post).permit(:content, :place, :user_id).merge(:user_id => current_user.id))
+    @user = User.find(@post.user_id)
   end
 
   def edit
@@ -25,10 +27,12 @@ class PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
     @post.update(params.require(:post).permit(:content, :place))
+    @user = User.find(@post.user_id)
   end
 
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
+    @user = User.find(@post.user_id)
   end
 end
