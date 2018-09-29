@@ -22,17 +22,32 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
+    if @post.user_id == current_user.id
+    else
+      redirect_to "/posts"
+      flash[:alert] = "無効なユーザー"
+    end
   end
 
   def update
     @post = Post.find(params[:id])
-    @post.update(params.require(:post).permit(:content, :place))
     @user = User.find(@post.user_id)
+    if @post.user_id == current_user.id
+      @post.update(params.require(:post).permit(:content, :place))
+    else
+      redirect_to "/posts"
+      flash[:alert] = "無効なユーザー"
+    end
   end
 
   def destroy
     @post = Post.find(params[:id])
-    @post.destroy
     @user = User.find(@post.user_id)
+    if @post.user_id == current_user.id
+      @post.destroy
+    else
+      redirect_to "/posts"
+      flash[:alert] = "無効なユーザー"
+    end
   end
 end

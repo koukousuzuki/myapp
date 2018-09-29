@@ -5,5 +5,9 @@
 <small><%= @post.created_at %> : <%= @post.place%></small>
 </hr>
 <p><a href="/posts">トップに戻る</a></p>
+<% if user_signed_in? %>
+<% if @post.user_id == current_user.id %>
 <p><a href="/posts/<%= @post.id %>/edit">投稿を編集する</a></p>
 <p><a href="/posts/<%= @post.id %>" data-method="delete">投稿を削除する</a></p>
+<% end %>
+<% end %>
